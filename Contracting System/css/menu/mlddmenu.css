@@ -1,0 +1,146 @@
+.topmenu 
+{
+    /*
+	background-image: url(../images/menubg.jpg);
+	background-repeat: repeat-x;
+	width: 978px;
+	height: 37px;
+	float: left;
+	border: 1px solid #000000;
+    border-radius: 5px;
+    */
+    direction: ltr;
+}
+.mlddm 
+{
+    margin: 0;
+    padding: 0;
+	background-image: url(../../images/menubg.jpg);
+	background-repeat: repeat-x;
+    height: 37px;
+    display: inline-block;
+    width: 100%;
+	border: 1px solid #000000;
+    border-radius: 5px;
+}
+.mlddm .hsub {
+    background: no-repeat right url(arrow.gif);
+}
+.mlddm .hsub:hover {
+    background: #C4C3C4 no-repeat right url(arrow.gif);
+}
+ .mlddm li
+{
+	display: inline;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    float: left;
+    font: bold 11px arial;
+}
+ .mlddm li a, .mlddm li a#buttonnohover 
+{
+    /*
+	display: block;
+    text-align: center;
+    color: #5D5D5D;
+    padding: 5px 10px;
+    margin: 0;
+    width: auto;
+    text-decoration: none;
+    white-space: nowrap;
+*/
+
+    font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	font-weight: bold;
+	line-height: 37px;
+	color: #FFFFFF;
+	text-decoration: none;
+	display: block;
+	height: 37px;
+	padding-right: 21px;
+	padding-left: 21px;
+}
+ .mlddm li a:hover, .mlddm li a#buttonhover
+{
+    /*
+    color: #5D5D5D;
+	background-image: url(topbgd.gif);
+	*/
+	background-image: url(../../images/menu-hov.jpg);
+	background-repeat: repeat-x;
+	background-position: left top;
+}
+ .mlddm ul
+{
+	z-index: 100;
+    margin: 0;
+    padding: 0;
+    visibility: hidden;
+    position: absolute;
+	background: #EEEFEF url(menubg.gif);
+}
+ .mlddm ul li
+{
+	float: none;
+}
+.mlddm ul li a
+{
+	width: 150px;
+    margin: 0px;
+    padding: 6px 20px 6px 15px;
+    font-weight: normal;
+    text-align: left;
+    height: 24px;
+    text-decoration: none;
+    color: #5D5D5D;
+}
+.mlddm ul li a:hover
+{	
+    color: #5D5D5D;
+    background: #C4C3C4;
+}
+
+/*
+.topmenu {
+	background-image: url(../images/menubg.jpg);
+	background-repeat: repeat-x;
+	width: 978px;
+	height: 37px;
+	float: left;
+	border: 1px solid #000000;
+    border-radius: 5px;
+}
+*/
+/*
+.topmenu ul {
+	width: 100%;
+	height: 37px;
+	list-style-type: none;
+}
+.topmenu ul li {
+	height: 37px;
+	float: left;
+	padding-right: 24px;
+	padding-left: 24px;
+}
+.topmenu ul li a {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+	line-height: 37px;
+	color: #FFFFFF;
+	text-decoration: none;
+	display: block;
+	height: 37px;
+	float: left;
+	padding-right: 21px;
+	padding-left: 21px;
+}
+.topmenu ul li a:hover {
+	background-image: url(../images/menu-hov.jpg);
+	background-repeat: repeat-x;
+	background-position: left top;
+}
+*/

@@ -1,0 +1,234 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Users.Master.cs" Inherits="Contracting_System.Site" %>
+
+<!DOCTYPE html>
+<html>
+<head runat="server">
+    <title></title>
+    <link href="css/jquery-ui.css" rel="stylesheet" type="text/css" />
+    <script src="js/jquery-1.9.1.js" type="text/javascript"></script>
+    <script src="js/jquery-ui.js" type="text/javascript"></script>
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+    <link href="css/menu/mlddmenu.css" rel="stylesheet" type="text/css" />
+    <script src="css/menu/mlddmenu.js" type="text/javascript"></script>
+    <asp:ContentPlaceHolder ID="UsersheadContent" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div class="main-out">
+            <div class="main">
+                <div class="page">
+                    <div class="top">
+                        <div class="header">
+                            <div class="header-top">
+                                <p>
+                                    اسم المستخدم : <span id="UserName" runat="server"></span>
+                                    <input type="button" id="btn_LogIn" value="تسجيل الدخول" runat="server" onserverclick="btn_LogIn_ServerClick" />
+                                    <input type="button" id="btn_LogOut" value="تسجيل الخروج" runat="server" onserverclick="btn_LogOut_ServerClick" />
+                                </p>
+                            </div>
+                            <div class="topmenu" runat="server" id="menuSite">
+                                <ul class='mlddm'>
+                                    <li><a href='#'>المدير</a>
+                                        <ul>
+                                            <li><a href='#'>العاملين</a>
+                                                <ul>
+                                                    <li><a href='#'>موردين</a>
+                                                        <ul>
+                                                            <li><a href='AddSupplier.aspx'>اضافة</a></li>
+                                                            <li><a href='EditSupplier.aspx'>تعديل</a></li>
+                                                        </ul>
+                                                    </li>
+                                                    <li><a href='#'>مقاولين الباطن</a>
+                                                        <ul id='subContr'>
+                                                            <li><a href='AddSubcontractor.aspx'>اضافة</a></li>
+                                                            <li><a href='EditSubcontractors.aspx'>تعديل</a></li>
+                                                        </ul>
+                                                    </li>
+                                                    <li><a href='#'>العمالة اليومية</a>
+                                                        <ul>
+                                                            <li><a href='AddDailyWorker.aspx'>اضافة</a></li>
+                                                            <li><a href='EditDailyWorker.aspx'>تعديل</a></li>
+                                                        </ul>
+                                                    </li>
+                                                    <li><a href='#'>الموظفين</a>
+                                                        <ul>
+                                                            <li><a href='AddEmployee.aspx'>اضافة</a></li>
+                                                            <li><a href='EditEmployee.aspx'>تعديل</a></li>
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                            <li><a href='#'>الخزن</a>
+                                                <ul>
+                                                    <li><a href='ProjectSaver.aspx'>إيداع لخزنة المشروع</a></li>
+                                                    <li><a href='#'>بنود الخزن</a>
+                                                        <ul>
+                                                            <li><a href='AddSaverItem.aspx'>اضافة</a></li>
+                                                            <li><a href='EditSaverItem.aspx'>تعديل</a></li>
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                            <li><a href='#'>المواد الخام</a>
+                                                <ul>
+                                                    <li><a href='AddCategory.aspx'>اضافة</a> </li>
+                                                    <li><a href='EditCategory.aspx'>تعديل</a> </li>
+                                                </ul>
+                                            </li>
+                                            <li><a href='#'>انواع المواد الخام</a>
+                                                <ul>
+                                                    <li><a href='AddItems.aspx'>اضافة</a> </li>
+                                                    <li><a href='EditItems.aspx'>تعديل</a> </li>
+                                                </ul>
+                                            </li>
+                                            <li><a href='#'>أعمال مقاولى الباطن</a>
+                                                <ul>
+                                                    <li><a href='AddWorkCategory.aspx'>اضافة</a> </li>
+                                                    <li><a href='EditWorkCategory.aspx'>تعديل</a> </li>
+                                                </ul>
+                                            </li>
+                                            <li><a href='#'>انواع اعمال مقاولى الباطن</a>
+                                                <ul>
+                                                    <li><a href='AddWorkType.aspx'>اضافة</a> </li>
+                                                    <li><a href='EditWorkType.aspx'>تعديل</a> </li>
+                                                </ul>
+                                            </li>
+                                            <li><a href='#'>وحدات القياس</a>
+                                                <ul>
+                                                    <li><a href='AddMeasurementUnit.aspx'>اضافة</a> </li>
+                                                </ul>
+                                            </li>
+                                            <li><a href='#'>فئات المصروفات</a>
+                                                <ul>
+                                                    <li><a href='AddExpenseCategory.aspx'>اضافة</a> </li>
+                                                    <li><a href='EditExpenseCategory.aspx'>تعديل</a> </li>
+                                                </ul>
+                                            </li>
+                                            <li><a href='#'>بنود المصروفات</a>
+                                                <ul>
+                                                    <li><a href='AddExpenseItem.aspx'>اضافة</a> </li>
+                                                    <li><a href='EditExpenseItem.aspx'>تعديل</a> </li>
+                                                </ul>
+                                            </li>
+                                            <li><a href='DailyCashbook.aspx'>دفتر اليومية النقدى</a> </li>
+                                            <li><a href='DailySuppliesbook.aspx'>دفتر يومية التوريدات</a> </li>
+                                        </ul>
+                                    </li>
+                                    <li><a href='#'>مشاريع</a>
+                                        <ul>
+                                            <li><a href='NewProject.aspx'>مشروع جديد</a></li>
+                                            <li><a href='SelectProject.aspx'>مشاريع جارية</a></li>
+                                            <li><a href='ReportFillterProject.aspx'>أرشيف المشروعات</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href='#'>المستخلصات</a>
+                                        <ul>
+                                            <li><a href='CompanyExtract.aspx'>مستخلص الشركة</a></li>
+                                            <li><a href='SupplierExtract.aspx'>مستخلص موردين</a></li>
+                                            <li><a href='SubContractorExtract.aspx'>مستخلص مقاولين الباطن</a></li>
+                                            <li><a href='DailyWorkerExtract.aspx'>مستخلص العماله اليوميه</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href='#'>تعديل</a>
+                                        <ul>
+                                            <li><a href='EditDailyCashbook.aspx'>دفتر اليوميه</a></li>
+                                            <li><a href='EditDailySuppliesbook.aspx'>دفتر التوريدات</a></li>
+                                            <li><a href='EditProjectSaver.aspx'>سحب/ايداع خزنة</a></li>
+                                            <li><a href='EditCompanyExtract.aspx'>مستخلص الشركة</a></li>
+                                            <li><a href='EditSupplierExtract.aspx'>مستخلص موردين</a></li>
+                                            <li><a href='EditSubContractorExtract.aspx'>مستخلص مقاولين الباطن</a></li>
+                                            <li><a href='EditDailyWorkerExtract.aspx'>مستخلص العماله اليوميه</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href='#'>تقارير</a>
+                                        <ul>
+                                            <li><a href='ReportFillterCompany.aspx'>مستخلص شركه</a> </li>
+                                            <li><a href='ReportFillterSupplier.aspx'>مستخلص مورد</a> </li>
+                                            <li><a href='ReportFillterSub.aspx'>مستخلص مقاول</a> </li>
+                                            <li><a href='ReportFillterWorkerExtract.aspx'>مستخلص العماله اليوميه</a> </li>
+                                            <li><a href='ReportFillterProject.aspx'>أرشيف المشروعات</a> </li>
+                                            <li><a href='ReportFillterDailyCashbook.aspx'>دفتر اليوميه</a> </li>
+                                            <li><a href='ReportFillterDailySuppliesbook.aspx'>دفتر التوريدات</a> </li>
+                                        </ul>
+                                    </li>
+                                    <li><a href='#'>المستخدمين</a>
+                                        <ul>
+                                            <li><a href='EditUserAndPassword.aspx'>اضافة وتعديل اسم مستخدم</a> </li>
+                                            <li><a href='SelectRoles.aspx'>اسناد الصلاحيات</a> </li>
+                                            <li><a href='SetRoles.aspx'>تصنيف الصلاحيات</a> </li>
+                                            <li><a href='EditRoles.aspx'>تعديل تصنيف الصلاحيات</a> </li>
+                                        </ul>
+                                    </li>
+                                    <li><a href='#'>قاعدة البيانات</a>
+                                        <ul>
+                                            <li><a href='BackupDatabase.aspx'>عمل نسخة احتياطية</a> </li>
+                                            <li><a href='RestoreDatabase.aspx'>استرجاع من نسخة محفوظه</a> </li>
+                                        </ul>
+                                    </li>
+                                    <li><a href='ContactUs.aspx'>مساعدة</a></li>
+                                </ul>
+                            </div>
+                            <div class="header-img">
+                            </div>
+                        </div>
+                        <div class="content">
+                            <div class="content-left">
+                                <asp:ContentPlaceHolder ID="UsersMainContent" runat="server">
+                                </asp:ContentPlaceHolder>
+                            </div>
+                            <div class="content-right">
+                                <h2>القائمة الرئيسة</h2>
+                                <div id="shortMenu" runat="server">
+                                    <ul>
+                                        <li style="border-top: medium none;"><a href="NewProject.aspx">مشروع جديد</a></li>
+                                        <li><a href="SelectProject.aspx">مشاريع جارية</a></li>
+                                        <li><a href="DailySuppliesbook.aspx">دفتر التوريدات</a></li>
+                                        <li><a href="DailyCashbook.aspx">دفتر اليومية</a></li>
+                                    </ul>
+                                </div>
+                                <p>
+                                    &nbsp;
+                                </p>
+                                <p>
+                                    &nbsp;
+                                </p>
+                                <p>
+                                    &nbsp;
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bottom">
+                        <ul>
+                            <li style="border-left: medium none;"><a href="#">عن الشركة</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript">
+            $(".IsNumberOnly").keypress(function (evt) {
+                evt = (evt) ? evt : window.event;
+                var charCode = (evt.which) ? evt.which : evt.keyCode;
+                if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                    {
+                        return false;
+                    }
+                }
+                return true;
+            });
+            $(".IsDate").datepicker({ dateFormat: "dd/mm/yy" });
+            $(document).ready(function () {
+                $('.toggle').hide();
+                $('a.togglelink').on('click', function (e) {
+                    e.preventDefault();
+                    var elem = $(this).next('.toggle');
+                    $('.toggle').not(elem).hide('fast');
+                    elem.toggle('fast');
+                });
+            });
+        </script>
+    </form>
+</body>
+</html>

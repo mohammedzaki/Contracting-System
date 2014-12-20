@@ -1,0 +1,1 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="LoadData.aspx.cs" Inherits="Contracting_System.LoadData" %>
