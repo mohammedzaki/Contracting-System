@@ -32,7 +32,7 @@
                     $(subData).filter('main').find('Tbl_ExpensesCategories').each(function () {
                         categories += '<option value="' + $(this).find('PK_ID').text() + '" >' + $(this).find('Name').text() + '</option>';
                     });
-                    $("#grid_GuardianshipDetails").html('<tr class="ItemRow"><td class="style16"><select name="ItemCategory" class="ItemCategory b_width addrow" onchange="onChangeItemCategory(this)"><option></option><option value="-4">مقاولين</option><option value="-3">موردين</option><option value="-2">عمالة يوميه</option><option value="-1">موظفين</option>' + categories + '</select></td><td class="style22"><select name="ItemName" class="ItemName b_width addrow" onchange="onChangeItemName(this)"><option></option></select></td><td class="style18"><select name="WorkType" class="WorkType b_width addrow"><option></option></select></td><td class="style18"><input type="text" name="Value" class="s_width addrow"/></td><td class="style18"><input type="text" name="Date" class="b_width IsDate addrow"/></td><td class="style18"><input type="button" value="     " disabled /></td></tr>');
+                    $("#grid_GuardianshipDetails").html('<tr class="ItemRow"><td class="style16"><select name="ItemCategory" class="ItemCategory b_width addrow" onchange="onChangeItemCategory(this)"><option></option><option value="-4">مقاولين</option><option value="-3">موردين</option><option value="-2">عمالة يوميه</option><option value="-1">موظفين</option>' + categories + '</select></td><td class="style22"><select name="ItemName" class="ItemName b_width addrow" onchange="onChangeItemName(this)"><option></option></select></td><td class="style18"><select name="WorkType" class="WorkType b_width addrow"><option></option></select></td><td class="style18"><input type="text" name="Value" class="s_width addrow" onchange="onChangePrice(this)"/></td><td class="style18"><input type="text" name="Date" class="b_width IsDate addrow"/></td><td class="style18"><input type="button" value="     " disabled /></td></tr>');
                     $(".IsDate").datepicker({ dateFormat: "dd/mm/yy" });
                     $(".addrow").change(function () {
                         AddRow(this);
@@ -42,7 +42,7 @@
                         $(subData).filter('main').find('Tbl_ExpensesCategories').each(function () {
                             categories += '<option value="' + $(this).find('PK_ID').text() + '" >' + $(this).find('Name').text() + '</option>';
                         });
-                        $("#grid_GuardianshipDetails").html('<tr class="ItemRow"><td class="style16"><select name="ItemCategory" class="ItemCategory b_width addrow" onchange="onChangeItemCategory(this)"><option></option><option value="-4">مقاولين</option><option value="-3">موردين</option><option value="-2">عمالة يوميه</option><option value="-1">موظفين</option>' + categories + '</select></td><td class="style22"><select name="ItemName" class="ItemName b_width addrow" onchange="onChangeItemName(this)"><option></option></select></td><td class="style18"><select name="WorkType" class="WorkType b_width addrow"><option></option></select></td><td class="style18"><input type="text" name="Value" class="s_width addrow"/></td><td class="style18"><input type="text" name="Date" class="b_width IsDate addrow"/><td class="style18"><input type="button" value="     " disabled /></td></tr>');
+                        $("#grid_GuardianshipDetails").html('<tr class="ItemRow"><td class="style16"><select name="ItemCategory" class="ItemCategory b_width addrow" onchange="onChangeItemCategory(this)"><option></option><option value="-4">مقاولين</option><option value="-3">موردين</option><option value="-2">عمالة يوميه</option><option value="-1">موظفين</option>' + categories + '</select></td><td class="style22"><select name="ItemName" class="ItemName b_width addrow" onchange="onChangeItemName(this)"><option></option></select></td><td class="style18"><select name="WorkType" class="WorkType b_width addrow"><option></option></select></td><td class="style18"><input type="text" name="Value" class="s_width addrow" onchange="onChangePrice(this)"/></td><td class="style18"><input type="text" name="Date" class="b_width IsDate addrow"/><td class="style18"><input type="button" value="     " disabled /></td></tr>');
                         $(".IsDate").datepicker({ dateFormat: "dd/mm/yy" });
                         $(".addrow").change(function () {
                             AddRow(this);
@@ -142,12 +142,26 @@
             var CurrentRow = $(CurrentCell).parent();
             var AfterCurrentRow = $(CurrentRow).next();
             if ($(AfterCurrentRow).hasClass("ItemRow") == false) {
-                $("#grid_GuardianshipDetails").append('<tr class="ItemRow"><td class="style16"><select name="ItemCategory" class="ItemCategory b_width addrow" onchange="onChangeItemCategory(this)"><option></option><option value="-4">مقاولين</option><option value="-3">موردين</option><option value="-2">عمالة يوميه</option><option value="-1">موظفين</option>' + categories + '</select></td><td class="style22"><select name="ItemName" class="ItemName b_width addrow" onchange="onChangeItemName(this)"><option></option></select></td><td class="style18"><select name="WorkType" class="WorkType b_width addrow"><option></option></select></td><td class="style18"><input type="text" name="Value" class="s_width addrow"/></td><td class="style18"><input type="text" name="Date" class="b_width IsDate addrow"/></td><td class="style18"><input type="button" value="حذف" onclick="RemoveRow(this)"/></td></tr>');
+                $("#grid_GuardianshipDetails").append('<tr class="ItemRow"><td class="style16"><select name="ItemCategory" class="ItemCategory b_width addrow" onchange="onChangeItemCategory(this)"><option></option><option value="-4">مقاولين</option><option value="-3">موردين</option><option value="-2">عمالة يوميه</option><option value="-1">موظفين</option>' + categories + '</select></td><td class="style22"><select name="ItemName" class="ItemName b_width addrow" onchange="onChangeItemName(this)"><option></option></select></td><td class="style18"><select name="WorkType" class="WorkType b_width addrow"><option></option></select></td><td class="style18"><input type="text" name="Value" class="s_width addrow" onchange="onChangePrice(this)"/></td><td class="style18"><input type="text" name="Date" class="b_width IsDate addrow"/></td><td class="style18"><input type="button" value="حذف" onclick="RemoveRow(this)"/></td></tr>');
                 $(".IsDate").datepicker({ dateFormat: "dd/mm/yy" });
                 $(".addrow").change(function () {
                     AddRow(this);
                 });
             }
+        }
+        var TotalPrice = 0;
+        function onChangePrice(parent) {
+            var rowIndex = $(parent)
+                                    .closest('tr') // Get the closest tr parent element
+                                    .prevAll() // Find all sibling elements in front of it
+                                    .length; // Get their count
+            TotalPrice = 0;
+            var count = $('#grid_GuardianshipDetails').children().length;
+            for (var i = 0; i < count; i++) {
+                //Check if Total Price not Equal 0
+                TotalPrice += parseFloat($('#grid_GuardianshipDetails tr:eq(' + i + ') td:eq(3)').children(0).val());
+            }
+            $("#txt_RestValue").val(parseFloat($("#txt_value").val()) - TotalPrice);
         }
 
         function RemoveRow(obj) {
@@ -301,7 +315,7 @@
                 المتبقى :
             </td>
             <td>
-                <input type="text" id="txt_RestValue" class="IsNumberOnly b_width" />
+                <input type="text" id="txt_RestValue" class="IsNumberOnly b_width" readonly/>
             </td>
         </tr>
     </table>

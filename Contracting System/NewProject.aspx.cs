@@ -157,7 +157,7 @@ namespace Contracting_System
                                   Tbl_SubContractorWorks.Fields.FK_SubContractorID, SubContractorID,
                                   Tbl_SubContractorWorks.Fields.FK_WorkID, WorkID
                             );
-                        int FK_SubContractorWorkID = (int)DB.NewID(TablesNames.Tbl_SubContractorWorks);
+                        int FK_SubContractorWorkID = (int)DB.GetMaxID(TablesNames.Tbl_SubContractorWorks);
                         DB.Insert(TablesNames.Tbl_ProjectSubContractor,
                                   Tbl_ProjectSubContractor.Fields.PK_ID, (int)DB.NewID(TablesNames.Tbl_ProjectSubContractor),
                                   Tbl_ProjectSubContractor.Fields.FK_ProjectID, id,

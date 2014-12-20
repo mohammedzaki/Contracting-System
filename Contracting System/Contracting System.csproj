@@ -104,6 +104,7 @@
     <Content Include="BackupDatabase.aspx" />
     <Content Include="ExportData.xml" />
     <Content Include="js\EditSubcontractor.js" />
+    <Content Include="js\EditSupplier.js" />
     <Content Include="js\EditWorkCategory.js" />
     <Content Include="js\EditProjects.js" />
     <Content Include="ReportFillterWorkerExtract.aspx" />

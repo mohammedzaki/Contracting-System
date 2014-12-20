@@ -355,6 +355,15 @@ namespace N_Tier_Classes.DataAccessLayer
                 return Convert.ToInt64(ExecuteSqlStatmentQuery("SELECT MAX(PK_ID) from " + TableName.ToString(), ResultReturnedDataType.Scalar)) + 1;
         }
 
+        public virtual long GetMaxID(TablesNames TableName)
+        {
+            DataTable myTable = (DataTable)ExecuteSqlStatmentQuery("SELECT * from " + TableName.ToString(), ResultReturnedDataType.Table);
+            if (myTable.Rows.Count == 0)
+                return 0;
+            else
+                return Convert.ToInt64(ExecuteSqlStatmentQuery("SELECT MAX(PK_ID) from " + TableName.ToString(), ResultReturnedDataType.Scalar));
+        }
+
         public int MaxID
         {
             get

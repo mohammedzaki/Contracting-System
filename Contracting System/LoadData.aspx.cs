@@ -69,6 +69,21 @@ namespace Contracting_System
                                 xmlData = xmlData.Replace("Table>", "Tbl_Data>");
                                 Response.Write(xmlData);
                             }
+                            else if (Page.Request.Form["action"].ToString() == "EditSupplier")
+                            {
+                                data = (DataSet)DB.ExecuteSqlStatmentQuery(
+                                    " select * from " + TablesNames.Tbl_Supplier +
+                                    " select Tbl_SupplierSupplies.PK_ID as suppliesID, Tbl_Supplier.PK_ID, Tbl_Supplier.Name,Tbl_Category.PK_ID AS CategoryID, Tbl_Category.Name AS CategoryName from Tbl_Supplier INNER JOIN dbo.Tbl_SupplierSupplies ON dbo.Tbl_SupplierSupplies.FK_SupplierID = dbo.Tbl_Supplier.PK_ID INNER JOIN dbo.Tbl_Category ON dbo.Tbl_SupplierSupplies.FK_CategoryID = dbo.Tbl_Category.PK_ID" +
+                                    " select * from " + TablesNames.Tbl_Category,
+                                    DB_OperationProcess.ResultReturnedDataType.DataSet);
+
+                                xmlData = data.GetXml();
+                                xmlData = xmlData.Replace("NewDataSet>", "main>");
+                                xmlData = xmlData.Replace("Table>", "Tbl_Data>");
+                                xmlData = xmlData.Replace("Table1>", "Tbl_SupplierSupplies>");
+                                xmlData = xmlData.Replace("Table2>", "Tbl_Category>");
+                                Response.Write(xmlData);
+                            }
                             else if (Page.Request.Form["action"].ToString() == "EditDailyWorker")
                             {
                                 data = (DataSet)DB.ExecuteSqlStatmentQuery(@" select * from " + TablesNames.Tbl_DailyWorker,
@@ -109,6 +124,21 @@ namespace Contracting_System
                                 xmlData = xmlData.Replace("NewDataSet>", "main>");
                                 xmlData = xmlData.Replace("Table>", "Tbl_Data>");
                                 xmlData = xmlData.Replace("Table1>", "Tbl_Sub>");
+                                Response.Write(xmlData);
+                            }
+                            else if (Page.Request.Form["action"].ToString() == "EditItems")
+                            {
+                                data = (DataSet)DB.ExecuteSqlStatmentQuery(
+                                    " select * from " + TablesNames.Tbl_Category + 
+                                    " select * from " + TablesNames.Tbl_Items + 
+                                    " select * from " + TablesNames.Tbl_MeasurementUnit,
+                                    DB_OperationProcess.ResultReturnedDataType.DataSet);
+                                
+                                xmlData = data.GetXml();
+                                xmlData = xmlData.Replace("NewDataSet>", "main>");
+                                xmlData = xmlData.Replace("Table>", "Tbl_Data>");
+                                xmlData = xmlData.Replace("Table1>", "Tbl_Sub>");
+                                xmlData = xmlData.Replace("Table2>", "Tbl_MeasurementUnit>");
                                 Response.Write(xmlData);
                             }
                             else if (Page.Request.Form["action"].ToString() == "AddExpenseItem")

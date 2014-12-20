@@ -1,183 +1,117 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="Users.master" AutoEventWireup="true" CodeBehind="EditItems.aspx.cs" Inherits="Contracting_System.EditItems" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="UsersheadContent" runat="server">
-    <style type="text/css">
-        .auto-style1
-        {
-            height: 32px;
-        }
-        
-        .auto-style2
-        {
-            height: 32px;
-            width: 160px;
-        }
-        
-        .auto-style3
-        {
-            width: 261px;
-        }
-        .style7
-        {
-            height: 21px;
-            width: 96px;
-        }
-        .style8
-        {
-            height: 21px;
-            width: 163px;
-        }
-        .style9
-        {
-            height: 21px;
-            width: 156px;
-        }
-        .style10
-        {
-            height: 21px;
-            width: 137px;
-        }
-        .style13
-        {
-            height: 16px;
-            width: 96px;
-        }
-        .style14
-        {
-            height: 16px;
-            width: 163px;
-        }
-        .style15
-        {
-            height: 16px;
-            width: 156px;
-        }
-        .style16
-        {
-            height: 16px;
-            width: 137px;
-        }
-        .HeaderRow
-        {
-            background-color: Blue;
-            color: White;
-        }
-        .ItemRow
-        {
-            background-color: Silver;
-            color: White;
-        }
-        #cbo_Safe
-        {
-            width: 202px;
-        }
-        #cbo_Currency
-        {
-            width: 199px;
-        }
-        #txt_Description
-        {
-            width: 388px;
-            height: 25px;
-        }
-        #cbo_Currency0
-        {
-            width: 199px;
-        }
-        #txt_ReceiptNo
-        {
-            width: 198px;
-        }
-        #txt_BillDeposit
-        {
-            width: 200px;
-        }
-    </style>
+    <script type="text/jscript">
+        $(function () {
+            $.ajax({
+                url: "LoadData.aspx",
+                type: "POST",
+                data: {
+                    action: location.pathname.substr(location.pathname.lastIndexOf('/') + 1, (location.pathname.length - 6))
+                },
+                success: function (data) {
+                    subData = data;
+                    $(subData).filter('main').find('Tbl_Data').each(function () {
+                        $("#cbo_ItemCategory").append('<option value="' + $(this).find('PK_ID').text() + '" >' + $(this).find('Name').text() + '</option>');
+                    });
+                    $(subData).filter('main').find('Tbl_MeasurementUnit').each(function () {
+                        $("#cbo_MeasurementUnit").append('<option value="' + $(this).find('PK_ID').text() + '" >' + $(this).find('Unit').text() + '</option>');
+                    });
+                    $("#cbo_ItemCategory").on("change", function () {
+                        $("#cbo_ItemCategoryTypes").html("<option></option>");
+                        $(subData).filter('main').find('Tbl_Sub').each(function () {
+                            if ($("#cbo_ItemCategory").val() == $(this).find('FK_CategoryID').text()) {
+                                $("#cbo_ItemCategoryTypes").append('<option value="' + $(this).find('PK_ID').text() + '" >' + $(this).find('ItemType').text() + '</option>');
+                            }
+                        });
+                    });
+                    $("#cbo_ItemCategoryTypes").on("change", function () {
+                        $(subData).filter('main').find('Tbl_Sub').each(function () {
+                            if ($("#cbo_ItemCategoryTypes").val() == $(this).find('PK_ID').text()) {
+                                $("#txt_ItemCategoryType").val($(this).find('ItemType').text());
+                                $("#cbo_MeasurementUnit").val($(this).find('FK_MeasurementUnitID').text());
+                            }
+                        });
+                    });
+                },
+                error: function (error) {
+                    alert("Error happened please contact System Administrator : " + error.statusText);
+                }
+            });
+
+            $("#btn_Save").on("click", function () {
+                if ($("#txt_ItemCategoryTypes").val() != '' && $("#cbo_ItemCategory").val() != '') {
+                    $.ajax({
+                        url: "SaveData.aspx",
+                        type: "POST",
+                        data: {
+                            id: $("#cbo_ItemCategoryTypes").val(),
+                            Name: $("#txt_ItemCategoryType").val(),
+                            MeasurementUnit: $("#cbo_MeasurementUnit").val(),
+                            action: location.pathname.substr(location.pathname.lastIndexOf('/') + 1, (location.pathname.length - 6))
+                        },
+                        success: function (data) {
+                            if ($(data).filter('main').find('Exception').text() == '') {
+                                alert("تم الحفظ");
+                                window.location.reload();
+                            } else {
+                                alert($(data).filter('main').find('Exception').text());
+                            }
+                        },
+                        error: function (error) {
+                            alert("Error happened please contact System Administrator : " + error.statusText);
+                        }
+                    });
+                } else {
+                    alert("ادخل الاسم اولا");
+                }
+            });
+        });
+    </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="UsersMainContent" runat="server">
-    <div style="direction: rtl">
-        <h3>
-            قائمة انواع المواد الخام
-        </h3>
-        <table style="height: 55px;">
-                <thead>
-                    <tr class="HeaderRow">
-                        <td class="style8">
-                            النوع
-                        </td>
-                        <td class="style9">
-                            الوحدة
-                        </td>
-                        <td class="style10">
-                            القياس
-                        </td>
-                        <td class="style10">
-                            تعديل
-                        </td>
-                    </tr>
-                </thead>
-                <tbody id="billItems">
-                    <tr class="ItemRow">
-                        <td class="style14">
-                            <input type="text" style="width: 160px" name="ItemNo" onchange="AddNewRow(this)"
-                                value="حديد" />
-                        </td>
-                        <td class="style15">
-                            <input type="text" style="width: 154px" name="ItemQTY" onchange="AddNewRow(this)"
-                                onkeypress="return isNumber(event);" value="10" />
-                        </td>
-                        <td class="style16">
-                            <input type="text" name="ItemUnitPrice" onchange="AddNewRow(this)" onkeypress="return isNumber(event);"
-                                style="width: 136px" value="طن" />
-                        </td>
-
-                        <td class="style16">
-                             <input type="button"  value="تعديل" style="width: 50px" class="btn_Save"/>
-                             <input type="button"  value="إلغاء" style="width: 50px" class="btn_Save"/>
-                             </td>
-                    </tr>
-                    <tr class="ItemRow">
-                        <td class="style14">
-                            <input type="text" style="width: 160px" name="ItemNo" onchange="AddNewRow(this)"
-                                value="خشب" />
-                        </td>
-                        <td class="style15">
-                            <input type="text" style="width: 154px" name="ItemQTY" onchange="AddNewRow(this)"
-                                onkeypress="return isNumber(event);" value="زان" />
-                        </td>
-                        <td class="style16">
-                            <input type="text" name="ItemUnitPrice" onchange="AddNewRow(this)" onkeypress="return isNumber(event);"
-                                style="width: 136px" value="متر" />
-                        </td>
-
-                        <td class="style16">
-                            <input type="button"  value="تعديل" style="width: 50px" class="btn_Save"/>
-                             <input type="button"  value="إلغاء" style="width: 50px" class="btn_Save"/>
-                             </td>
-                    </tr>
-                    <tr class="ItemRow">
-                        <td class="style14">
-                            <input type="text" style="width: 160px" name="ItemNo" onchange="AddNewRow(this)"
-                                value="حديد" />
-                        </td>
-                        <td class="style15">
-                            <input type="text" style="width: 154px" name="ItemQTY" onchange="AddNewRow(this)"
-                                onkeypress="return isNumber(event);" value="15" />
-                        </td>
-                        <td class="style16">
-                            <input type="text" name="ItemUnitPrice" onchange="AddNewRow(this)" onkeypress="return isNumber(event);"
-                                style="width: 136px" value="طن" />
-                        </td>
-
-                        <td class="style16">
-                             <input type="button"  value="تعديل" style="width: 50px" class="btn_Save"/>
-                             <input type="button"  value="إلغاء" style="width: 50px" class="btn_Save"/>
-                             </td>
-                    </tr>
-                </tbody>
-            </table>
-        
-
-        
-
-    </div>
+    <table>
+        <tr>
+            <td class="style23">
+                اختر المادة الخام :
+            </td>
+            <td>
+                <select id="cbo_ItemCategory">
+                    <option></option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td class="style23">
+                اختر نوع المادة الخام :
+            </td>
+            <td>
+                <select id="cbo_ItemCategoryTypes">
+                    <option></option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td class="style23">
+                الاسم الجديد :
+            </td>
+            <td>
+                <input id="txt_ItemCategoryType" type="text" />
+            </td>
+        </tr>
+        <tr>
+            <td class="style23">
+                وحدة القياس :
+            </td>
+            <td>
+                <select id="cbo_MeasurementUnit">
+                    <option></option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="text-align: center;">
+                <input type="button" id="btn_Save" class="btn_Save" value="حفظ" />
+            </td>
+        </tr>
+    </table>
 </asp:Content>

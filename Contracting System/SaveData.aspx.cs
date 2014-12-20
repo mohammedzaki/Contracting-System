@@ -272,6 +272,24 @@ namespace Contracting_System
                                 xmlData += "True</main>";
                                 Response.Write(xmlData);
                             }
+                            else if (Page.Request.Form["action"].ToString() == "EditItems")
+                            {
+                                string
+                                    Name = Page.Request.Form["Name"],
+                                    id = Page.Request.Form["id"],
+                                    MeasurementUnit = Page.Request.Form["MeasurementUnit"];
+
+                                DB.Update(TablesNames.Tbl_Items,
+                                    new object[]{
+                                      Tbl_Items.Fields.ItemType, Name,
+                                      Tbl_Items.Fields.FK_MeasurementUnitID, int.Parse(MeasurementUnit)
+                                },
+                                    new object[]{
+                                      Tbl_Items.Fields.PK_ID, int.Parse(id)
+                                });
+                                xmlData += "True</main>";
+                                Response.Write(xmlData);
+                            }
                             else if (Page.Request.Form["action"].ToString() == "ProjectSaver")
                             {
                                 string

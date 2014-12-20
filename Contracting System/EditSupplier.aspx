@@ -1,76 +1,106 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="Users.master" AutoEventWireup="true" CodeBehind="EditSupplier.aspx.cs" Inherits="Contracting_System.EditSupplier" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="UsersheadContent" runat="server">
+    <style type="text/css">
+        .auto-style4 {
+            width: 75px;
+        }
 
-
+        .auto-style6 {
+            width: 74px;
+        }
+    </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="UsersMainContent" runat="server">
 
     <div id="accordion">
         <h3>تعديل بيانات مورد
         </h3>
-        <div style="direction: rtl">
-            <table>
-                <tr>
-                    <td>اسم المورد :
-                        </td>
-                    <td>
-                        <select id="Select2" onchange="EditSelectedType(this)" class="b_width">
-                            <option></option>
-                        </select>
-                    </td>
-                    <td>رقم الكود :
-                        </td>
-                    <td>
-                        <input id="SupplierID" type="text" value="" readonly="readonly" class="b_width" />
-                    </td>
-                </tr>
-                <tr>
-                    <td class="auto-style1">الموبايل :</td>
-                    <td>
-                        <input id="Text3" type="text" class="b_width" />
-                    </td>
-                    <td>الأرضى :</td>
-                    <td>
-                        <input id="Text4" type="text" class="b_width" />
-                    </td>
-                </tr>
-                <tr>
-                    <td>العنــــوان :</td>
-                    <td>
-                        <input id="Text5" type="text" class="b_width" />
-                    </td>
-                </tr>
-            </table>
-        </div>
+        <br />
+        <table style="width: auto">
+            <tr>
+                <td class="auto-style4">اختر المورد :
+                </td>
+                <td>
+                    <select id="cbo_EditSuppliers" class="b_width">
+                        <option></option>
+                    </select>
+                </td>
+                <td class="auto-style6"></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="auto-style4">
+                    <br />
+                </td>
+                <td></td>
+                <td class="auto-style6"></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="auto-style4">اسم المقاول :
+                </td>
+                <td>
+                    <input id="txt_SupplierName" type="text" class="b_width" />
+                </td>
+                <td class="auto-style6">كود المقاول :
+                </td>
+                <td>
+                    <input id="txt_SupplierCode" readonly="readonly" type="text" class="b_width" />
+                </td>
+            </tr>
+            <tr>
+                <td class="auto-style4">الموبايل :
+                </td>
+                <td>
+                    <input id="txt_SupplierMobile" type="text" class="IsNumberOnly b_width" />
+                </td>
+                <td class="auto-style6">الأرضى :
+                </td>
+                <td>
+                    <input id="txt_SupplierTel" type="text" class="IsNumberOnly b_width" />
+                </td>
+            </tr>
+            <tr>
+                <td class="auto-style4">العنوان :
+                </td>
+                <td>
+                    <input id="txt_SupplierAddress" type="text" class="b_width" />
+                </td>
+                <td class="auto-style6"></td>
+                <td></td>
+            </tr>
+        </table>
+        <br />
         <h3>تحديد نوع المادة الخام
         </h3>
-        <div style="direction: rtl">
-            <table>
-                <tr>
-                    <td class="style2">النوع :
-                    </td>
-                    <td>
-                        <select id="Select1" name="D1" onchange="Select1_onclick(this)" class="b_width">
-                            <option></option>
-                        </select>
-                        <input id="Button1" type="button" value="إضافة مادة جديدة" /></td>
-                </tr>
-                <tr>
-                    <td class="style2">قائمة التوريدات :
-                    </td>
-                    <td>
-                        <select id="SupList" multiple="multiple" class="b_width">
-                        </select>
+        <br />
+        <table style="width: auto">
+            <tr>
+                <td class="auto-style6">النوع :
+                </td>
+                <td>
+                    <select class="b_width" id="cbo_SelectSupplies">
+                        <option></option>
+                    </select>
+                    <input type="button" value="إضافة مادة جديدة" onclick="SelectFromCbo_Items()" /></td>
+            </tr>
+            <tr>
+                <td class="auto-style6">قائمة التوريدات :
+                </td>
+                <td>
+                    <select id="SupList" multiple="multiple" class="b_width">
+                    </select>
 
-                        <input id="Button3" type="button" value="حذف المواد المختارة" /></td>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        <input id="Button2" type="button" value="حفظ التعديلات" class="btn_Save" />
-                    </td>
-                </tr>
-            </table>
-        </div>
+                    <%--<input type="button" value="حذف المواد المختارة" />--%></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input id="Button6" type="button" value="حفظ" onclick="UpdateSupplier()" class="btn_Save" />
+                    <input id="Button7" type="button" value="إلغاء" onclick="ResetPage()" class="btn_Save" />
+                </td>
+            </tr>
+        </table>
     </div>
+    <script src="js/EditSupplier.js" type="text/javascript"></script>
 </asp:Content>
