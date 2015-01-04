@@ -14,9 +14,9 @@ namespace Contracting_System
 {
     public partial class AddEstimationItems : System.Web.UI.Page
     {
-
-
         private DB_OperationProcess DB = new DB_OperationProcess();
+        double ItemQTY = 0, ItemBY = 0, Quantity = 0, ItemDevid = 0;
+
         protected void btn_ImportEstemetion_Click(object sender, EventArgs e)
         {
             this.Security();
@@ -147,20 +147,27 @@ where Tbl_ProjectEstimation.FK_ProjectID = " + Convert.ToInt32(Session["ProjectI
                                 DataTable EstimationItems = (DataTable)DB.ExecuteSqlStatmentQuery("select * from Tbl_EquationItems where FK_EstimationItemEquationID = " + EstimationItemRow[0].ToString(), DB_OperationProcess.ResultReturnedDataType.Table);
                                 foreach (DataRow EquationRow in EstimationItems.Rows)
                                 {
-                                    double ItemQTY = (Convert.ToDouble(EquationRow[3]) *
-                                                      Convert.ToDouble(
-                                                          (object)
-                                                          DB.ExecuteSqlStatmentQuery(
-                                                              "select Quantity from Tbl_ProjectEstimation where FK_EstimationItemsID =" + EstimationItemRow[1].ToString() + " And FK_ProjectID = " + Convert.ToInt32(Session["ProjectId"]).ToString(),
-                                                              DB_OperationProcess.ResultReturnedDataType.Scalar))) /
-                                                     Convert.ToDouble(EquationRow[4]);
+
+                                    ItemBY = Convert.ToDouble(EquationRow[3]);
+                                    Quantity = Convert.ToDouble(DB.ExecuteSqlStatmentQuery("select Quantity from Tbl_ProjectEstimation where FK_EstimationItemsID =" + EstimationItemRow[1].ToString() + " And FK_ProjectID = " + Convert.ToInt32(Session["ProjectId"]).ToString(), DB_OperationProcess.ResultReturnedDataType.Scalar));
+                                    ItemDevid = Convert.ToDouble(EquationRow[4]);
+
+                                    ItemQTY = (ItemBY * Quantity) / ItemDevid;
+
                                     DB.Insert(TablesNames.Tbl_ProjectSupplies,
                                               Tbl_ProjectSupplies.Fields.PK_ID, DB.NewID(TablesNames.Tbl_ProjectSupplies),
                                               Tbl_ProjectSupplies.Fields.FK_ItemsID, Convert.ToInt32(EquationRow[2]),
                                               Tbl_ProjectSupplies.Fields.FK_ProjectID, Convert.ToInt32(Session["ProjectId"]),
                                               Tbl_ProjectSupplies.Fields.QTY, ItemQTY
                                         );
-
+                                    /*
+                                    DB.Insert(TablesNames.Tbl_ProjectSupplies,
+                                              Tbl_ProjectSupplies.Fields.PK_ID, DB.NewID(TablesNames.Tbl_ProjectSupplies),
+                                              Tbl_ProjectSupplies.Fields.FK_ItemsID, Convert.ToInt32(EquationRow[2]),
+                                              Tbl_ProjectSupplies.Fields.FK_ProjectID, Convert.ToInt32(Session["ProjectId"]),
+                                              Tbl_ProjectSupplies.Fields.FK_ProjectEstimationItemID, EstimationItemRow["ProjectEstimationID"],
+                                              Tbl_ProjectSupplies.Fields.QTY, ItemQTY,
+                                              Tbl_ProjectSupplies.Fields.Rest, ItemQTY);*/
                                 }
                             }
                         }

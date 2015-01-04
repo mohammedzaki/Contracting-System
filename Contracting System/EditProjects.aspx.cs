@@ -38,7 +38,7 @@ namespace Contracting_System
         //Microsoft.Office.Interop.Excel.Worksheet oSheet;
 
         private DB_OperationProcess DB = new DB_OperationProcess();
-
+        double ItemQTY = 0, ItemBY = 0, Quantity = 0, ItemDevid = 0;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -366,21 +366,19 @@ where Tbl_ProjectEstimation.FK_ProjectID = " + Convert.ToInt32(Session["ProjectI
                             DataTable EstimationItems = (DataTable)DB.ExecuteSqlStatmentQuery("select * from Tbl_EquationItems where FK_EstimationItemEquationID = " + EstimationItemRow[0].ToString(), DB_OperationProcess.ResultReturnedDataType.Table);
                             foreach (DataRow EquationRow in EstimationItems.Rows)
                             {
-                                double ItemQTY = (Convert.ToDouble(EquationRow[3]) *
-                                                  Convert.ToDouble(
-                                                      (object)
-                                                      DB.ExecuteSqlStatmentQuery(
-                                                          "select Quantity from Tbl_ProjectEstimation where FK_EstimationItemsID =" + EstimationItemRow[1].ToString() + " And FK_ProjectID = " + Convert.ToInt32(Session["ProjectId"]).ToString(),
-                                                          DB_OperationProcess.ResultReturnedDataType.Scalar))) /
-                                                 Convert.ToDouble(EquationRow[4]);
+                                ItemBY = Convert.ToDouble(EquationRow[3]);
+                                Quantity = Convert.ToDouble(DB.ExecuteSqlStatmentQuery("select Quantity from Tbl_ProjectEstimation where FK_EstimationItemsID =" + EstimationItemRow[1].ToString() + " And FK_ProjectID = " + Convert.ToInt32(Session["ProjectId"]).ToString(), DB_OperationProcess.ResultReturnedDataType.Scalar));
+                                ItemDevid = Convert.ToDouble(EquationRow[4]);
+
+                                ItemQTY = (ItemBY * Quantity) / ItemDevid;
+                                
                                 DB.Insert(TablesNames.Tbl_ProjectSupplies,
                                           Tbl_ProjectSupplies.Fields.PK_ID, DB.NewID(TablesNames.Tbl_ProjectSupplies),
                                           Tbl_ProjectSupplies.Fields.FK_ItemsID, Convert.ToInt32(EquationRow[2]),
                                           Tbl_ProjectSupplies.Fields.FK_ProjectID, Convert.ToInt32(Session["ProjectId"]),
                                           Tbl_ProjectSupplies.Fields.FK_ProjectEstimationItemID, EstimationItemRow["ProjectEstimationID"],
                                           Tbl_ProjectSupplies.Fields.QTY, ItemQTY,
-                                          Tbl_ProjectSupplies.Fields.Rest, ItemQTY
-                                    );
+                                          Tbl_ProjectSupplies.Fields.Rest, ItemQTY);
                             }
                         }
                     }
@@ -492,41 +490,6 @@ FROM            Tbl_ProjectSupplies INNER JOIN
                             catch (Exception ex)
                             { }
 
-
-//                            #region تطبيق المعادلات
-
-//                            DataTable HasEstimation = (DataTable)DB.ExecuteSqlStatmentQuery(@"SELECT        Tbl_EstimationItemEquations.PK_ID, Tbl_EstimationItemEquations.FK_EstimationItemID
-//FROM            Tbl_ProjectEstimation INNER JOIN
-//                         Tbl_EstimationItems ON Tbl_ProjectEstimation.FK_EstimationItemsID = Tbl_EstimationItems.PK_ID INNER JOIN
-//                         Tbl_EstimationItemEquations ON Tbl_EstimationItems.PK_ID = Tbl_EstimationItemEquations.FK_EstimationItemID
-//where Tbl_ProjectEstimation.FK_ProjectID = " + Convert.ToInt32(Session["ProjectId"]) + " and Tbl_EstimationItemEquations.HasEquationItems = 1", DB_OperationProcess.ResultReturnedDataType.Table);
-//                            if (HasEstimation.Rows.Count > 0)
-//                            {
-//                                foreach (DataRow EstimationItemRow in HasEstimation.Rows)
-//                                {
-//                                    DataTable EstimationItems = (DataTable)DB.ExecuteSqlStatmentQuery("select * from Tbl_EquationItems where FK_EstimationItemEquationID = " + EstimationItemRow[0].ToString(), DB_OperationProcess.ResultReturnedDataType.Table);
-//                                    foreach (DataRow EquationRow in EstimationItems.Rows)
-//                                    {
-//                                        double ItemQTY = (Convert.ToDouble(EquationRow[3]) *
-//                                                          Convert.ToDouble(
-//                                                              (object)
-//                                                              DB.ExecuteSqlStatmentQuery(
-//                                                                  "select Quantity from Tbl_ProjectEstimation where FK_EstimationItemsID =" + EstimationItemRow[1].ToString() + " And FK_ProjectID = " + Convert.ToInt32(Session["ProjectId"]).ToString(),
-//                                                                  DB_OperationProcess.ResultReturnedDataType.Scalar))) /
-//                                                         Convert.ToDouble(EquationRow[4]);
-//                                        DB.Insert(TablesNames.Tbl_ProjectSupplies,
-//                                                  Tbl_ProjectSupplies.Fields.PK_ID, DB.NewID(TablesNames.Tbl_ProjectSupplies),
-//                                                  Tbl_ProjectSupplies.Fields.FK_ItemsID, Convert.ToInt32(EquationRow[2]),
-//                                                  Tbl_ProjectSupplies.Fields.FK_ProjectID, Convert.ToInt32(Session["ProjectId"]),
-//                                                  Tbl_ProjectSupplies.Fields.QTY, ItemQTY
-//                                            );
-
-//                                    }
-//                                }
-//                            }
-
-//                            #endregion
-
                             DB.CommitTransaction();
                             Response.Write("<script LANGUAGE='JavaScript' >alert('تم الحفظ بنجاح ... من فضلك اضغط على زر العودة للصفحة السابقة');document.location='" + ResolveClientUrl("AddEstimationItems.aspx") + "';</script>");
 
@@ -568,31 +531,7 @@ FROM            Tbl_ProjectSupplies INNER JOIN
                         Response.Write("<script LANGUAGE='JavaScript' >alert(' لم يتم حفظ المشروع حتى الان ... برجاء الظغط على زر العودة للصفحة السابقة');document.location='" + ResolveClientUrl("AddEstimationItems.aspx") + "';</script>");
 
                     }
-
                 }
-                //else if (Page.Request.Form["action"] != null &&
-                //      Page.Request.Form["action"].ToString() == "DeleteSubContractor")
-                //{
-                //    //Int64 ContractorID = Convert.ToInt64(Page.Request.Form["ContractorID"]);
-                //    //DataTable dtsubContractors = (DataTable)DB.ExecuteSqlStatmentQuery("select * from Tbl_GuardianshipItems inner join Tbl_ProjectGuardianship on Tbl_ProjectGuardianship.PK_ID = Tbl_GuardianshipItems.FK_ProjectGuardianshipID where Tbl_ProjectGuardianship.FK_ProjectID = " + Session["ProjectId"].ToString() + " and Tbl_GuardianshipItems.PersonTypeID = -4 and Tbl_GuardianshipItems.PersonID =" + ContractorID, DB_OperationProcess.ResultReturnedDataType.Table);
-                //    //string xmlData = "";
-                //    //if (dtsubContractors.Rows.Count > 0)
-                //    //{
-                //    //    xmlData = "<main>";
-                //    //    xmlData += "<Messeage>";
-                //    //    xmlData += "لا يمكن حذف هذا الشخص لان لديه قائمة اعمال بالفعل على هذا المشروع";
-                //    //    xmlData += "</Messeage>";
-                //    //}
-                //    //else
-                //    //{
-                //    //    DB.Delete(tables)
-                //    //    xmlData = "<main>";
-                //    //    xmlData += "<Messeage>";
-                //    //    xmlData += "تم الحذف";
-                //    //    xmlData += "</Messeage>";       
-                //    //}
-                //    //xmlData += "</main>";
-                //}
             }
         }
 
